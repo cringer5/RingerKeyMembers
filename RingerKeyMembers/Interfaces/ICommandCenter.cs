@@ -1,13 +1,18 @@
-﻿using System;
+﻿using RingerKeyMembers.Models;
 using System.Collections.Generic;
-using System.Text;
-using RingerKeyMembers.Models;
 
 namespace RingerKeyMembers.Interfaces
 {
     public interface ICommandCenter
     {
-        public CommandInfo parseCommand(string userCommand);
+        CommandInfo getNewCommand();
 
+        CommandInfo parseCommand(string userCommand);
+
+        void run();
+
+        string RunActionCommand(CommandInfo commandInfo);
+
+        List<string> RunListCommand(CommandInfo commandInfo);
     }
 }

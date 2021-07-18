@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using RingerKeyMembers.Classes;
-using RingerKeyMembers.Models;
+using RingerKeyMembers.Interfaces;
 
 namespace RingerKeyMembers
 {
@@ -14,7 +14,7 @@ namespace RingerKeyMembers
             var keyCollection = new Dictionary<string, List<string>>();
             var keyMgr = new KeyManager();
             var displayMgr = new DisplayManager();
-            var commandCenter = new CommandCenter(keyCollection, keyMgr, displayMgr);  // ~ inject them
+            ICommandCenter commandCenter = new CommandCenter(keyCollection, keyMgr, displayMgr);  // ~ inject them
             commandCenter.run();
 
             Console.WriteLine("\nThank you for playing! We have some lovely parting gifts for you.");

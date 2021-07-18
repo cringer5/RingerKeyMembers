@@ -37,7 +37,6 @@ namespace RingerKeyMembers.Classes
 
             try
             {
-
                 // just spin until user exits 
                 do
                 {
@@ -70,6 +69,7 @@ namespace RingerKeyMembers.Classes
             }
             catch (Exception exc)
             {
+                // TODO: Log this error somewhere 
                 Console.WriteLine($"Run time ERROR: {exc.Message}. Contact 24/7 support.");
                 Console.ReadKey();
             }
@@ -157,13 +157,13 @@ namespace RingerKeyMembers.Classes
                 msg = _keyMgr.RemoveAllMembers(commandInfo, _keyCollection);
             }
             // Clear needs to be all by itself 
-            else if (commandUpper == "CLEAR" && 
-                     String.IsNullOrWhiteSpace(commandInfo.Key) && 
+            else if (commandUpper == "CLEAR" &&
+                     String.IsNullOrWhiteSpace(commandInfo.Key) &&
                      String.IsNullOrWhiteSpace(commandInfo.Member))
             {
                 _keyMgr.ClearAllKeys(_keyCollection);
             }
-            else if (commandUpper == "HELP") 
+            else if (commandUpper == "HELP")
             {
                 msg = "INFO: Please Refer to the PDF instructions and the README Addendum.";
             }
@@ -173,8 +173,8 @@ namespace RingerKeyMembers.Classes
             {
                 // no operation 
             }
-            else 
-            { 
+            else
+            {
                 msg = $"ERROR: {commandUpper} syntax is invalid.";
             }
 
@@ -195,8 +195,8 @@ namespace RingerKeyMembers.Classes
                 list = _keyMgr.GetAllKeys(_keyCollection);
             }
             else if (commandUpper == "MEMBERS")  // for a specific Key 
-               if (!String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                    String.IsNullOrWhiteSpace(commandInfo.Member))
+                if (!String.IsNullOrWhiteSpace(commandInfo.Key) &&
+                     String.IsNullOrWhiteSpace(commandInfo.Member))
                 {
                     list = _keyMgr.GetKeyMembers(commandInfo, _keyCollection);
                 }

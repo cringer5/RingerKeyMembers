@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RingerKeyMembers.Models
 {
-    public class Collections 
+    public class KeyMbrWrap 
     {
         public Dictionary<string, List<string>> KeyCollection;
     }
