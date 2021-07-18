@@ -59,7 +59,17 @@ namespace RingerKeyMembers.Classes
                 return msg;
             }
 
-            membersList.Remove(commandInfo.Member);
+            // green light to purge 
+            if (membersList.Count > 1)
+            {
+                membersList.Remove(commandInfo.Member);
+            }
+            // if just one member, remove the key too! 
+            else 
+            {
+                msg = RemoveAllMembers(commandInfo, keyCollection);
+            }
+
             return msg;
         }
 
@@ -95,8 +105,7 @@ namespace RingerKeyMembers.Classes
             return msg;
         }
 
-
-        // Delete a key from collection (which deletes the members too)
+        // Delete a specific key from collection (which deletes the members too)
         public string RemoveAllMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
         {
             var msg = String.Empty;
