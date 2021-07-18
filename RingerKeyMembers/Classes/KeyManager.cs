@@ -34,7 +34,7 @@ namespace RingerKeyMembers.Classes
             else
             {
                 // sorry but duplicates not allowed 
-                msg = $"ERROR: Key {commandInfo.Key} Member {commandInfo.Member} already exists.";
+                msg = $"ERROR: {commandInfo.Key} {commandInfo.Member} already exists.";
             }
 
             return msg;
@@ -48,14 +48,14 @@ namespace RingerKeyMembers.Classes
             var hasKey = keyCollection.ContainsKey(commandInfo.Key);
             if (!hasKey)
             {
-                msg = $"ERROR: Key {commandInfo.Key} does not exist.";
+                msg = $"ERROR: {commandInfo.Key} does not exist.";
                 return msg;
             } 
             
             var membersList = keyCollection[commandInfo.Key];
             if (!membersList.Contains(commandInfo.Member))
             {
-                msg = $"ERROR: Key {commandInfo.Key} Member {commandInfo.Member} does not exist.";
+                msg = $"ERROR: {commandInfo.Key} {commandInfo.Member} does not exist.";
                 return msg;
             }
 
@@ -99,7 +99,7 @@ namespace RingerKeyMembers.Classes
 
             if (! keyCollection.ContainsKey(commandInfo.Key))
             {
-                msg = $"ERROR: Key {commandInfo.Key} was not found";
+                msg = $"ERROR: {commandInfo.Key} was not found";
             }
 
             return msg;
@@ -116,7 +116,7 @@ namespace RingerKeyMembers.Classes
             }
             else
             {
-                msg = $"ERROR: Key {commandInfo.Key} was not found";
+                msg = $"ERROR: {commandInfo.Key} was not found";
             }
 
             return msg;

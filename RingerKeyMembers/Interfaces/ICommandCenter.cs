@@ -5,7 +5,7 @@ using RingerKeyMembers.Models;
 
 namespace RingerKeyMembers.Interfaces
 {
-    interface ICommandCenter
+    public interface ICommandCenter
     {
         public CommandInfo parseCommand(string userCommand);
 
