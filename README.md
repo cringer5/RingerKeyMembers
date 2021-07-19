@@ -24,13 +24,14 @@ These are all valid and equivalent: ADD Add aDd
 - HEllo World
 - hello world 
 
-- Tabs are treated like spaces. These commands are identical: 
+- Tabs are treated like spaces. These commands are equivalent: 
 - Add MyKey Here is the Member
 - Add MyKey---Tab--->Here is the---Tab--->Member
-- Valid commands do not have a confirmation message (it felt like unnecessary noise for a console app). If you run a command and do NOT see an error message, it was successful. 
+- Valid commands do NOT have a confirmation message (it felt like unnecessary noise for a console app). 
+- If you run a command and do NOT see an error message, it was successful. This can easily be changed to add a confirmation message. 
 
 ### Action Commands
-These are commands with edit the dictionary.
+These are commands that edit the dictionary.
 - Add : Adds a key/member to the dictionary
 - ADD MyKey My Member
 - Remove: Removes a key/member
