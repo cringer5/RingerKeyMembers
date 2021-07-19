@@ -65,7 +65,7 @@ namespace RingerKeyMembers.Classes
                     }
                     else
                     {
-                        Console.WriteLine($"{commandUpper} is invalid.");
+                        Console.WriteLine($"{commandUpper} command is invalid.");
                     }
                 } while (commandUpper != "EXIT");
             }
@@ -196,15 +196,15 @@ namespace RingerKeyMembers.Classes
             {
                 list = _keyMgr.GetAllKeys(_keyCollection);
             }
-            else if (commandUpper == "MEMBERS")  // for a specific Key 
-                if (!String.IsNullOrWhiteSpace(commandInfo.Key) &&
+            else if (commandUpper == "MEMBERS" &&  // for a specific Key 
+                     !String.IsNullOrWhiteSpace(commandInfo.Key) &&
                      String.IsNullOrWhiteSpace(commandInfo.Member))
                 {
                     list = _keyMgr.GetKeyMembers(commandInfo, _keyCollection);
-                }
-                else
-                {
-                    _dspMgr.PrintMessage($"ERROR: {commandUpper} syntax is invalid.");
+                    if (list.Count == 0)
+                    {
+                        _dspMgr.PrintMessage($"ERROR: {commandInfo.Key} does not exist");
+                    }
                 }
             else if (commandUpper == "ALLMEMBERS" &&
                      String.IsNullOrWhiteSpace(commandInfo.Key) &&
@@ -217,6 +217,10 @@ namespace RingerKeyMembers.Classes
                      String.IsNullOrWhiteSpace(commandInfo.Member))
             {
                 list = _keyMgr.GetAllItems(_keyCollection);
+            }
+            else
+            {
+                _dspMgr.PrintMessage($"ERROR: {commandUpper} syntax is invalid.");
             }
 
             return list;
