@@ -14,8 +14,8 @@ namespace RingerKeyMembers.Tests
     {
         private readonly Mock<ICommandCenter> _mockCmdCenter;
         private readonly Dictionary<string, List<string>> keyCollection; 
-        private readonly KeyManager _keyMgr;
-        private readonly DisplayManager _dspMgr;
+        private readonly IKeyManager _keyMgr;
+        private readonly IDisplayManager _dspMgr;
         private readonly ICommandCenter _cmdCenter;
 
         public UnitTest1()

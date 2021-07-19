@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using RingerKeyMembers.Models;
 using System.Linq;
+using RingerKeyMembers.Interfaces;
 
 namespace RingerKeyMembers.Classes
 {
-    public class KeyManager
+    public class KeyManager : IKeyManager
     {
         public KeyManager()
         {
@@ -50,8 +51,8 @@ namespace RingerKeyMembers.Classes
             {
                 msg = $"ERROR: {commandInfo.Key} does not exist.";
                 return msg;
-            } 
-            
+            }
+
             var membersList = keyCollection[commandInfo.Key];
             if (!membersList.Contains(commandInfo.Member))
             {
@@ -65,7 +66,7 @@ namespace RingerKeyMembers.Classes
                 membersList.Remove(commandInfo.Member);
             }
             // if just one member, remove the key too! 
-            else 
+            else
             {
                 msg = RemoveAllMembers(commandInfo, keyCollection);
             }
@@ -85,7 +86,7 @@ namespace RingerKeyMembers.Classes
             var msg = KeyExists(commandInfo, keyCollection);
             if (String.IsNullOrWhiteSpace(msg))
             {
-                if (! keyCollection[commandInfo.Key].Contains(commandInfo.Member))
+                if (!keyCollection[commandInfo.Key].Contains(commandInfo.Member))
                 {
                     msg = $"ERROR: {commandInfo.Key} {commandInfo.Member} was not found";
                 }
@@ -99,7 +100,7 @@ namespace RingerKeyMembers.Classes
         {
             var msg = String.Empty;
 
-            if (! keyCollection.ContainsKey(commandInfo.Key))
+            if (!keyCollection.ContainsKey(commandInfo.Key))
             {
                 msg = $"ERROR: {commandInfo.Key} was not found";
             }
@@ -166,7 +167,7 @@ namespace RingerKeyMembers.Classes
 
             foreach (var key in keys)
             {
-                var allMembers = keyCollection[key];  
+                var allMembers = keyCollection[key];
                 foreach (var member in allMembers)
                 {
                     allItems.Add($"{key} {member}");

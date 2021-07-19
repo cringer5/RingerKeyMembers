@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using RingerKeyMembers.Models;
-
+using RingerKeyMembers.Interfaces;
 
 namespace RingerKeyMembers.Classes
 {
     // If were a web page, would want to encode all output strings  
-    public class DisplayManager
+    public class DisplayManager : IDisplayManager
     {
         public DisplayManager()
         {
