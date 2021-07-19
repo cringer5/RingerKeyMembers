@@ -4,16 +4,18 @@ using System.Text;
 using RingerKeyMembers.Interfaces;
 using RingerKeyMembers.Models;
 
-
+// Dispatches all user commands to be executed downstream. 
 namespace RingerKeyMembers.Classes
 {
     public class CommandCenter : ICommandCenter
     {
+        // These perform an action then return a status msg 
         private readonly List<string> _ActionCommands = new List<string>()
         {
             "ADD", "REMOVE", "KEYEXISTS", "MEMBEREXISTS", "REMOVEALL", "CLEAR", "HELP", "EXIT"
         };
 
+        // These return a list of dictionary data 
         private readonly List<string> _ListCommands = new List<string>()
         {
             "KEYS", "MEMBERS", "ALLMEMBERS", "ITEMS"
@@ -83,7 +85,7 @@ namespace RingerKeyMembers.Classes
             {
                 Console.WriteLine("Please enter a Command (type HELP for usage)");
                 newCommand = Console.ReadLine();
-            } while (newCommand.Trim() == String.Empty);
+            } while (String.IsNullOrWhiteSpace(newCommand));
 
             var commandInfo = parseCommand(newCommand);
             return commandInfo;
@@ -156,7 +158,7 @@ namespace RingerKeyMembers.Classes
             {
                 msg = _keyMgr.RemoveAllMembers(commandInfo, _keyCollection);
             }
-            // Clear needs to be all by itself 
+            // CLEAR needs to be all by itself 
             else if (commandUpper == "CLEAR" &&
                      String.IsNullOrWhiteSpace(commandInfo.Key) &&
                      String.IsNullOrWhiteSpace(commandInfo.Member))

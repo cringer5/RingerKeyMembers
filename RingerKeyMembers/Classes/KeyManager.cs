@@ -79,6 +79,7 @@ namespace RingerKeyMembers.Classes
             keyCollection.Clear();
         }
 
+        // See if a member exists for a key 
         public string MemberExists(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
         {
             var msg = KeyExists(commandInfo, keyCollection);
@@ -93,6 +94,7 @@ namespace RingerKeyMembers.Classes
             return msg;
         }
 
+        // See if key exists in dictionary 
         public string KeyExists(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
         {
             var msg = String.Empty;
@@ -105,7 +107,7 @@ namespace RingerKeyMembers.Classes
             return msg;
         }
 
-        // Delete a specific key from collection (which deletes the members too)
+        // Delete a specific key from collection (which deletes its members too)
         public string RemoveAllMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
         {
             var msg = String.Empty;
@@ -122,6 +124,7 @@ namespace RingerKeyMembers.Classes
             return msg;
         }
 
+        // Get all members for a given key 
         public List<String> GetKeyMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
         {
             var allMembers = new List<String>();
@@ -134,7 +137,7 @@ namespace RingerKeyMembers.Classes
             return allMembers;
         }
 
-        // May not find any but that's fine 
+        // Get all keys in the dictionary. May not find any but that's fine. 
         public List<String> GetAllKeys(IDictionary<string, List<string>> keyCollection)
         {
             var allKeys = keyCollection.Keys.ToList();  // Tech Note: easier to debug if 2 lines
@@ -155,6 +158,7 @@ namespace RingerKeyMembers.Classes
             return allMembers;
         }
 
+        // Returns all key/member pairs in the dictionary. 
         public List<String> GetAllItems(IDictionary<string, List<string>> keyCollection)
         {
             var allItems = new List<String>();
