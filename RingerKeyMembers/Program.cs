@@ -12,8 +12,8 @@ namespace RingerKeyMembers
             Console.WriteLine("Welcome to the Multi-Value Dictionary Manager!\n");
 
             var keyCollection = new Dictionary<string, List<string>>();
-            var keyMgr = new KeyManager();
-            var displayMgr = new DisplayManager();
+            IKeyManager keyMgr = new KeyManager();
+            IDisplayManager displayMgr = new DisplayManager();
             ICommandCenter commandCenter = new CommandCenter(keyCollection, keyMgr, displayMgr);  // ~ inject them
             commandCenter.run();
 

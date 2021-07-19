@@ -22,10 +22,10 @@ namespace RingerKeyMembers.Classes
         };
 
         private readonly IDictionary<string, List<string>> _keyCollection;
-        private readonly KeyManager _keyMgr;
-        private readonly DisplayManager _dspMgr;
+        private readonly IKeyManager _keyMgr;
+        private readonly IDisplayManager _dspMgr;
 
-        public CommandCenter(IDictionary<string, List<string>> keyCollection, KeyManager keyMgr, DisplayManager dspMgr)
+        public CommandCenter(IDictionary<string, List<string>> keyCollection, IKeyManager keyMgr, IDisplayManager dspMgr)
         {
             _keyCollection = keyCollection;
             _keyMgr = keyMgr;
