@@ -43,11 +43,10 @@ namespace RingerKeyMembers.Classes
                 do
                 {
                     commandInfo = getNewCommand();
-                    commandUpper = commandInfo.Command.ToUpper();
                     var msg = String.Empty;
                     var list = new List<string>();
 
-                    if (_ActionCommands.Contains(commandUpper))
+                    if (_ActionCommands.Contains(commandInfo.Command))
                     {
                         msg = this.RunActionCommand(commandInfo);
                         if (!String.IsNullOrWhiteSpace(msg))
@@ -55,7 +54,7 @@ namespace RingerKeyMembers.Classes
                             _dspMgr.PrintMessage(msg);
                         }
                     }
-                    else if (_ListCommands.Contains(commandUpper))
+                    else if (_ListCommands.Contains(commandInfo.Command))
                     {
                         list = RunListCommand(commandInfo);
                         if (list.Count > 0)
@@ -65,9 +64,9 @@ namespace RingerKeyMembers.Classes
                     }
                     else
                     {
-                        Console.WriteLine($"{commandUpper} command is invalid.");
+                        Console.WriteLine($"{commandInfo.Command} command is invalid.");
                     }
-                } while (commandUpper != "EXIT");
+                } while (commandInfo.Command != "EXIT");
             }
             catch (Exception exc)
             {
@@ -105,7 +104,7 @@ namespace RingerKeyMembers.Classes
             var pieces = userCommand.Split(" ");
             if (pieces.Length >= 1)
             {
-                commandInfo.Command = pieces[0];
+                commandInfo.Command = pieces[0].ToUpper();
             }
 
             if (pieces.Length >= 2)
@@ -135,51 +134,38 @@ namespace RingerKeyMembers.Classes
         public string RunActionCommand(CommandInfo commandInfo)
         {
             string msg = String.Empty;
-            var commandUpper = commandInfo.Command.ToUpper();
 
-            if (commandUpper == "ADD" &&
-                commandInfo.Count == 2)
+            // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/switch
+            switch (commandInfo)
             {
-                msg = _keyMgr.AddMember(commandInfo, _keyCollection);
-            }
-            else if (commandUpper == "REMOVE" &&
-                     commandInfo.Count == 2)
-            {
-                msg = _keyMgr.RemoveMember(commandInfo, _keyCollection);
-            }
-            else if (commandUpper == "KEYEXISTS" &&
-                     commandInfo.Count == 1)
-            {
-                msg = _keyMgr.KeyExists(commandInfo, _keyCollection);
-            }
-            else if (commandUpper == "MEMBEREXISTS" &&
-                     commandInfo.Count == 2)
-            {
-                msg = _keyMgr.MemberExists(commandInfo, _keyCollection);
-            }
-            else if (commandUpper == "REMOVEALL" &&
-                     commandInfo.Count == 1)
-            {
-                msg = _keyMgr.RemoveAllMembers(commandInfo, _keyCollection);
-            }
-            // CLEAR needs to be all by itself 
-            else if (commandUpper == "CLEAR" &&
-                     commandInfo.Count == 0)
-            {
-                _keyMgr.ClearAllKeys(_keyCollection);
-            }
-            else if (commandUpper == "HELP")
-            {
-                msg = "INFO: Please Refer to the PDF instructions and the README Addendum.";
-            }
-            else if (commandUpper == "EXIT" &&
-                     commandInfo.Count == 0)
-            {
-                // no operation 
-            }
-            else
-            {
-                msg = $"ERROR: {commandUpper} syntax is invalid.";
+                case CommandInfo ci when ci.Command == "ADD" && ci.Count == 2:
+                    msg = _keyMgr.AddMember(commandInfo, _keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "REMOVE" && ci.Count == 2:
+                    msg = _keyMgr.RemoveMember(commandInfo, _keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "KEYEXISTS" && ci.Count == 1:
+                    msg = _keyMgr.KeyExists(commandInfo, _keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "MEMBEREXISTS" && ci.Count == 2:
+                    msg = _keyMgr.MemberExists(commandInfo, _keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "REMOVEALL" && ci.Count == 1:
+                    msg = _keyMgr.RemoveAllMembers(commandInfo, _keyCollection);
+                    break;
+                // CLEAR needs to be all by itself 
+                case CommandInfo ci when ci.Command == "CLEAR" && ci.Count == 0:
+                    _keyMgr.ClearAllKeys(_keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "HELP":
+                    msg = "INFO: Please Refer to the PDF instructions and the README Addendum.";
+                    break;
+                case CommandInfo ci when ci.Command == "EXIT" && ci.Count == 0:
+                    // no operation 
+                    break;
+                default:
+                    msg = $"ERROR: {commandInfo.Command} syntax is invalid.";
+                    break;
             }
 
             return msg;
@@ -192,38 +178,32 @@ namespace RingerKeyMembers.Classes
             var list = new List<String>();
             var commandUpper = commandInfo.Command.ToUpper();
 
-            if (commandUpper == "KEYS" &&
-                commandInfo.Count == 0)
+            switch (commandInfo)
             {
-                list = _keyMgr.GetAllKeys(_keyCollection);
-            }
-            else if (commandUpper == "MEMBERS" &&  // for a specific Key 
-                     commandInfo.Count == 1)
-            {
-                list = _keyMgr.GetKeyMembers(commandInfo.Key, _keyCollection);
+                case CommandInfo ci when ci.Command == "KEYS" && ci.Count == 0:
+                    list = _keyMgr.GetAllKeys(_keyCollection);
+                    break;
+                // Members for a specific Key 
+                case CommandInfo ci when ci.Command == "MEMBERS" && ci.Count == 1:
+                    list = _keyMgr.GetKeyMembers(commandInfo.Key, _keyCollection);
                     if (list.Count == 0)
                     {
                         _dspMgr.PrintMessage($"ERROR: {commandInfo.Key} does not exist");
                     }
-                }
-            else if (commandUpper == "ALLMEMBERS" &&
-                     commandInfo.Count == 0)
-            {
-                list = _keyMgr.GetAllMembers(_keyCollection);
-            }
-            else if (commandUpper == "ITEMS" &&
-                     commandInfo.Count == 0)
-            {
-                list = _keyMgr.GetAllItems(_keyCollection);
-            }
-            else if (commandUpper == "INTERSECTION" &&
-                     commandInfo.Count == 2)
-            {
-                list = _keyMgr.GetIntersection(commandInfo.Key, commandInfo.Member, _keyCollection);
-            }
-            else
-            {
-                _dspMgr.PrintMessage($"ERROR: {commandUpper} syntax is invalid.");
+                    break;
+                case CommandInfo ci when ci.Command == "ALLMEMBERS" && ci.Count == 0:
+                    list = _keyMgr.GetAllMembers(_keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "ITEMS" && ci.Count == 0:
+                    list = _keyMgr.GetAllItems(_keyCollection);
+                    break;
+                case CommandInfo ci when ci.Command == "INTERSECTION" && ci.Count == 2 &&
+                                         ci.Member.Split(" ").Length == 1:  // key is a single word 
+                    list = _keyMgr.GetIntersection(commandInfo.Key, commandInfo.Member, _keyCollection);
+                    break;
+                default:
+                    _dspMgr.PrintMessage($"ERROR: {commandUpper} syntax is invalid.");
+                    break;
             }
 
             return list;
