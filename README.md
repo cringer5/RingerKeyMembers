@@ -51,6 +51,8 @@ These are commands that list content from the dictionary. A list command that re
 - ALLMEMBERS
 - Items : Lists all key and members pairs in the entire dictionary.
 - ITEMS
+- Intersection : See what members 2 key lists have in common
+- INTERSECTION KEY1 KEY2
 
 ### Other Commands 
 - KeyExists - Checks to see if a key exists in dictionary. If you don't see an error message, it exists. 
