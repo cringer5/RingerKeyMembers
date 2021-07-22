@@ -9,9 +9,11 @@ namespace RingerKeyMembers.Classes
 {
     public class KeyManager : IKeyManager
     {
-        public KeyManager()
-        {
+        private readonly IDisplayManager _dspMgr;
 
+        public KeyManager(IDisplayManager dspMgr)
+        {
+            _dspMgr = dspMgr;
         }
 
         // Empty return value means success! Else it's an error message. 
@@ -126,13 +128,13 @@ namespace RingerKeyMembers.Classes
         }
 
         // Get all members for a given key 
-        public List<String> GetKeyMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection)
+        public List<String> GetKeyMembers(string key, IDictionary<string, List<string>> keyCollection)
         {
             var allMembers = new List<String>();
 
-            if (keyCollection.ContainsKey(commandInfo.Key))
+            if (keyCollection.ContainsKey(key))
             {
-                allMembers = keyCollection[commandInfo.Key];
+                allMembers = keyCollection[key];
             }
 
             return allMembers;
@@ -175,6 +177,29 @@ namespace RingerKeyMembers.Classes
             }
 
             return allItems;
+        }
+
+        // Get common members between 2 keys 
+        public List<String> GetIntersection(string key1, string key2, IDictionary<string, List<string>> keyCollection)
+        {
+            var intersection = new List<string>();
+
+            var key1Members = GetKeyMembers(key1, keyCollection);  
+            if (key1Members.Count == 0)
+            {
+                _dspMgr.PrintMessage($"{key1} does not exist");
+                return intersection;
+            } 
+
+            var key2Members = GetKeyMembers(key2, keyCollection);
+            if (key2Members.Count == 0)
+            {
+                _dspMgr.PrintMessage($"{key2} does not exist");
+                return intersection;
+            }
+
+            intersection = key1Members.Intersect(key2Members).ToList();
+            return intersection;
         }
 
     }

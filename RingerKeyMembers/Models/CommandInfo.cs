@@ -12,5 +12,6 @@ namespace RingerKeyMembers.Models
 
         public string Member { get; set; }
 
+        public int Count { get; set; }  // 0=just cmd, 1=cmd w/key, 2=has key/member 
     }
 }

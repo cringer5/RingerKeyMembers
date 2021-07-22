@@ -9,15 +9,15 @@ namespace RingerKeyMembers
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to the Multi-Value Dictionary Manager!\n");
+            IDisplayManager displayMgr = new DisplayManager();
+            displayMgr.PrintMessage("Welcome to the Multi-Value Dictionary Manager!\n");
 
             var keyCollection = new Dictionary<string, List<string>>();
-            IKeyManager keyMgr = new KeyManager();
-            IDisplayManager displayMgr = new DisplayManager();
+            IKeyManager keyMgr = new KeyManager(displayMgr);
             ICommandCenter commandCenter = new CommandCenter(keyCollection, keyMgr, displayMgr);  // ~ inject them
             commandCenter.run();
 
-            Console.WriteLine("\nThank you for playing! We have some lovely parting gifts for you.");
+            displayMgr.PrintMessage("\nThank you for playing! We have some lovely parting gifts for you.");
             Console.ReadKey();
         }
     }

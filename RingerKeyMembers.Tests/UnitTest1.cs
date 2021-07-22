@@ -23,8 +23,8 @@ namespace RingerKeyMembers.Tests
             // build some helpers 
             _mockCmdCenter = new Mock<ICommandCenter>();
             keyCollection = new Dictionary<string, List<string>>();
-            _keyMgr = new KeyManager();
             _dspMgr = new DisplayManager();
+            _keyMgr = new KeyManager(_dspMgr);
             _cmdCenter = new CommandCenter(keyCollection, _keyMgr, _dspMgr);  // ~ inject them
         }
 

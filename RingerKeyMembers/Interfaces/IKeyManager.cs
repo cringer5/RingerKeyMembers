@@ -15,7 +15,7 @@ namespace RingerKeyMembers.Interfaces
 
         List<string> GetAllMembers(IDictionary<string, List<string>> keyCollection);
 
-        List<string> GetKeyMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection);
+        List<string> GetKeyMembers(string key, IDictionary<string, List<string>> keyCollection);
 
         string KeyExists(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection);
 
@@ -24,5 +24,7 @@ namespace RingerKeyMembers.Interfaces
         string RemoveAllMembers(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection);
 
         string RemoveMember(CommandInfo commandInfo, IDictionary<string, List<string>> keyCollection);
+
+        List<string> GetIntersection(string key1, string key2, IDictionary<string, List<string>> keyCollection);
     }
 }

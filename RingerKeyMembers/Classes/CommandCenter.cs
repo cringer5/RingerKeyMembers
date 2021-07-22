@@ -18,7 +18,7 @@ namespace RingerKeyMembers.Classes
         // These return a list of dictionary data 
         private readonly List<string> _ListCommands = new List<string>()
         {
-            "KEYS", "MEMBERS", "ALLMEMBERS", "ITEMS"
+            "KEYS", "MEMBERS", "ALLMEMBERS", "ITEMS", "INTERSECTION"
         };
 
         private readonly IDictionary<string, List<string>> _keyCollection;
@@ -118,6 +118,15 @@ namespace RingerKeyMembers.Classes
                 commandInfo.Member = String.Join(" ", pieces, 2, pieces.Length - 2);
             }
 
+            commandInfo.Count = 0;
+            if (!String.IsNullOrEmpty(commandInfo.Member))
+            {
+                commandInfo.Count = 2;
+            } else if (!String.IsNullOrEmpty(commandInfo.Key))
+            {
+                commandInfo.Count = 1;
+            }
+
             return commandInfo;
         }
 
@@ -129,39 +138,33 @@ namespace RingerKeyMembers.Classes
             var commandUpper = commandInfo.Command.ToUpper();
 
             if (commandUpper == "ADD" &&
-                !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                !String.IsNullOrWhiteSpace(commandInfo.Member))
+                commandInfo.Count == 2)
             {
                 msg = _keyMgr.AddMember(commandInfo, _keyCollection);
             }
             else if (commandUpper == "REMOVE" &&
-                     !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     !String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 2)
             {
                 msg = _keyMgr.RemoveMember(commandInfo, _keyCollection);
             }
             else if (commandUpper == "KEYEXISTS" &&
-                    !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                    String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 1)
             {
                 msg = _keyMgr.KeyExists(commandInfo, _keyCollection);
             }
             else if (commandUpper == "MEMBEREXISTS" &&
-                     !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     !String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 2)
             {
                 msg = _keyMgr.MemberExists(commandInfo, _keyCollection);
             }
             else if (commandUpper == "REMOVEALL" &&
-                     !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 1)
             {
                 msg = _keyMgr.RemoveAllMembers(commandInfo, _keyCollection);
             }
             // CLEAR needs to be all by itself 
             else if (commandUpper == "CLEAR" &&
-                     String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 0)
             {
                 _keyMgr.ClearAllKeys(_keyCollection);
             }
@@ -170,8 +173,7 @@ namespace RingerKeyMembers.Classes
                 msg = "INFO: Please Refer to the PDF instructions and the README Addendum.";
             }
             else if (commandUpper == "EXIT" &&
-                     String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 0)
             {
                 // no operation 
             }
@@ -191,32 +193,33 @@ namespace RingerKeyMembers.Classes
             var commandUpper = commandInfo.Command.ToUpper();
 
             if (commandUpper == "KEYS" &&
-                String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                String.IsNullOrWhiteSpace(commandInfo.Member))
+                commandInfo.Count == 0)
             {
                 list = _keyMgr.GetAllKeys(_keyCollection);
             }
             else if (commandUpper == "MEMBERS" &&  // for a specific Key 
-                     !String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
-                {
-                    list = _keyMgr.GetKeyMembers(commandInfo, _keyCollection);
+                     commandInfo.Count == 1)
+            {
+                list = _keyMgr.GetKeyMembers(commandInfo.Key, _keyCollection);
                     if (list.Count == 0)
                     {
                         _dspMgr.PrintMessage($"ERROR: {commandInfo.Key} does not exist");
                     }
                 }
             else if (commandUpper == "ALLMEMBERS" &&
-                     String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 0)
             {
                 list = _keyMgr.GetAllMembers(_keyCollection);
             }
             else if (commandUpper == "ITEMS" &&
-                     String.IsNullOrWhiteSpace(commandInfo.Key) &&
-                     String.IsNullOrWhiteSpace(commandInfo.Member))
+                     commandInfo.Count == 0)
             {
                 list = _keyMgr.GetAllItems(_keyCollection);
+            }
+            else if (commandUpper == "INTERSECTION" &&
+                     commandInfo.Count == 2)
+            {
+                list = _keyMgr.GetIntersection(commandInfo.Key, commandInfo.Member, _keyCollection);
             }
             else
             {
